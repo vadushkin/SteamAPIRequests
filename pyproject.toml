@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "testing-api-steam"
+version = "0.1.0"
+description = ""
+authors = ["vadim-shalapugin <vadimsalapugin@gmail.com>"]
+readme = "README.md"
+packages = [{include = "testing_api_steam"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.28.1"
+pydantic = {extras = ["dotenv"], version = "^1.10.2"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
