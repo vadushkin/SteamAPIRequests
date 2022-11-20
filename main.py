@@ -278,6 +278,45 @@ def get_owned_games(steam_id: int) -> [dict, None]:
     return response.json()
 
 
+def get_recently_played_games(steam_id: int, count: int) -> [dict, None]:
+    """
+    Return a list of games a player has played in the last two weeks,
+    if the profile is publicly visible.
+    Private, friends-only, and other privacy settings are not supported
+    unless you are asking for your own personal details
+    (ie the WebAPI key you are using is linked to the steamid you are requesting).
+
+    :steam_id <int>: The SteamID of the account.
+    :count <int>: Optionally limit to a certain number of games
+    (the number of games a person has played in the last 2 weeks is typically very small).
+    """
+
+    url = f'https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?' \
+          f'key={settings.key}&' \
+          f'steamid={steam_id}&' \
+          f'count={count}&' \
+          f'format=json'
+
+    response = requests.get(url)
+
+    if response.status_code >= 400:
+        logger.warning(f'Key - {str(settings.key)[:6]}... '
+                       f'Steam ID - {steam_id}. '
+                       f'Count - {count}. '
+                       f'Status code - {response.status_code}.')
+        return None
+
+    print('Games count -', response.json()['response']['total_count'])
+    print()
+
+    for game in response.json()['response']['games']:
+        print(game)
+
+    print()
+
+    return response.json()
+
+
 def main():
     try:
         # get_player_summaries(76561197963562688)
@@ -288,6 +327,7 @@ def main():
         # get_player_achievements(76561199087475515, 1091500)
         # get_user_stats_for_game(76561199087475515, 1091500)
         # get_owned_games(76561199087475515)
+        # get_recently_played_games(76561199087475515, 3)
         pass
 
     except Exception as _ex:
