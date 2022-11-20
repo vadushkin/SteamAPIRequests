@@ -173,7 +173,7 @@ def get_friend_list(steam_id: int, relationship: str) -> None:
     return response.json()
 
 
-def get_player_achievements(steam_id: int, app_id: int) -> None:
+def get_player_achievements(steam_id: int, app_id: int) -> [dict, None]:
     """
     Returns a list of achievements for this user by app ID.
 
@@ -191,7 +191,40 @@ def get_player_achievements(steam_id: int, app_id: int) -> None:
     if response.status_code >= 400:
         logger.warning(f'Key - {str(settings.key)[:6]}... '
                        f'Steam ID - {steam_id}. '
-                       f'app ID - {app_id}. '
+                       f'App ID - {app_id}. '
+                       f'Status code - {response.status_code}.')
+        return None
+
+    print('Name:', response.json()['playerstats']['gameName'])
+    print()
+
+    for achievement in response.json()['playerstats']['achievements']:
+        print(achievement)
+
+    print()
+
+    return response.json()
+
+
+def get_user_stats_for_game(steam_id: int, app_id: int) -> [dict, None]:
+    """
+    Returns a list of achievements for this user by app ID.
+
+    :steam_id <int>: 64 bit Steam ID to return friend list for.
+    :app_id <int>: The ID for the game you're requesting.
+    """
+
+    url = f'https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?' \
+          f'appid={app_id}&' \
+          f'key={settings.key}&' \
+          f'steamid={steam_id}'
+
+    response = requests.get(url)
+
+    if response.status_code >= 400:
+        logger.warning(f'Key - {str(settings.key)[:6]}... '
+                       f'Steam ID - {steam_id}. '
+                       f'App ID - {app_id}. '
                        f'Status code - {response.status_code}.')
         return None
 
@@ -214,6 +247,7 @@ def main():
         # get_news_for_app(440, 3, 300)
         # get_friend_list(76561197960435530, 'all')
         # get_player_achievements(76561199087475515, 1091500)
+        # get_user_stats_for_game(76561199087475515, 1091500)
         pass
 
     except Exception as _ex:
