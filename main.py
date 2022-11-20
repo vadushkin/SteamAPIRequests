@@ -239,6 +239,45 @@ def get_user_stats_for_game(steam_id: int, app_id: int) -> [dict, None]:
     return response.json()
 
 
+def get_owned_games(steam_id: int) -> [dict, None]:
+    """
+    Return a list of games a player owns along with some playtime information,
+    if the profile is publicly visible.
+    Private, friends-only, and other privacy settings are not supported unless
+    you are asking for your own personal details
+    (ie the WebAPI key you are using is linked to the steamid you are requesting).
+
+    :steam_id <int>: The SteamID of the account.
+    """
+    url = f'https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?' \
+          f'key={settings.key}&' \
+          f'steamid={steam_id}&' \
+          f'include_played_free_games=1&' \
+          f'include_appinfo=1'
+
+    response = requests.get(url)
+
+    if response.status_code >= 400:
+        logger.warning(f'Key - {str(settings.key)[:6]}... '
+                       f'Steam ID - {steam_id}. '
+                       f'Status code - {response.status_code}.')
+        return None
+
+    if not response.json()['response']:
+        logger.warning(f'Steam ID - {steam_id}. Response is empty.')
+        return None
+
+    print(f'Games count - {response.json()["response"]["game_count"]}')
+    print()
+
+    for game in response.json()['response']['games']:
+        print(game)
+
+    print()
+
+    return response.json()
+
+
 def main():
     try:
         # get_player_summaries(76561197963562688)
@@ -248,6 +287,7 @@ def main():
         # get_friend_list(76561197960435530, 'all')
         # get_player_achievements(76561199087475515, 1091500)
         # get_user_stats_for_game(76561199087475515, 1091500)
+        # get_owned_games(76561199087475515)
         pass
 
     except Exception as _ex:
