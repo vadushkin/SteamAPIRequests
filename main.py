@@ -21,12 +21,14 @@ def get_player_summaries(user_id: int) -> [dict, None]:
 
     response = requests.get(url)
 
-    if response.status_code > 400:
-        logger.warning(f'User ID - {user_id}. Status code - {response.status_code}.')
+    if response.status_code >= 400:
+        logger.warning(f'User ID - {user_id}. '
+                       f'Status code - {response.status_code}.')
         return None
 
     if not response.json()['response']['players']:
-        logger.warning(f'User - {user_id}. There is no such user')
+        logger.warning(f'User - {user_id}. '
+                       f'There is no such user')
         return None
 
     try:
@@ -34,7 +36,8 @@ def get_player_summaries(user_id: int) -> [dict, None]:
             print(item)
 
     except Exception as _ex:
-        logger.warning(f'Error is {_ex}. Function - get_player_summaries()')
+        logger.warning(f'Error is {_ex}. '
+                       f'Function - get_player_summaries()')
         return None
 
     return response.json()
@@ -56,12 +59,14 @@ def get_players_summaries(user_ids: list[int]) -> list[dict]:
 
         response = requests.get(url)
 
-        if response.status_code > 400:
-            logger.warning(f'User ID - {user_id}. Status code - {response.status_code}.')
+        if response.status_code >= 400:
+            logger.warning(f'User ID - {user_id}. '
+                           f'Status code - {response.status_code}.')
             continue
 
         if not response.json()['response']['players']:
-            logger.warning(f'User - {user_id}. There is no such user')
+            logger.warning(f'User - {user_id}. '
+                           f'There is no such user')
             continue
 
         lst_users.append(response.json())
@@ -87,8 +92,9 @@ def get_global_achievement_percentages_for_app(game_id: int) -> [dict, None]:
 
     response = requests.get(url)
 
-    if response.status_code > 400:
-        logger.warning(f'Game ID - {game_id}. Status code - {response.status_code}.')
+    if response.status_code >= 400:
+        logger.warning(f'Game ID - {game_id}. '
+                       f'Status code - {response.status_code}.')
         return None
 
     try:
@@ -96,7 +102,8 @@ def get_global_achievement_percentages_for_app(game_id: int) -> [dict, None]:
             print(achieve)
 
     except Exception as _ex:
-        logger.warning(f'Error is {_ex}. Function - get_global_achievement_percentages_for_app()')
+        logger.warning(f'Error is {_ex}. '
+                       f'Function - get_global_achievement_percentages_for_app()')
         return None
 
     return response.json()
@@ -119,9 +126,11 @@ def get_news_for_app(app_id: int, count: int, max_length: int) -> [dict, None]:
 
     response = requests.get(url)
 
-    if response.status_code > 400:
-        logger.warning(
-            f'App ID - {app_id}, Count - {count}, Max Length - {max_length}. Status code - {response.status_code}.')
+    if response.status_code >= 400:
+        logger.warning(f'App ID - {app_id}. '
+                       f'Count - {count}. '
+                       f'Max Length - {max_length}. '
+                       f'Status code - {response.status_code}.')
         return None
 
     for news in response.json()['appnews']['newsitems']:
@@ -148,7 +157,7 @@ def get_friend_list(steam_id: int, relationship: str) -> None:
 
     response = requests.get(url)
 
-    if response.status_code > 400:
+    if response.status_code >= 400:
         logger.warning(f'Key - {str(settings.key)[:6]}... '
                        f'Steam ID - {steam_id}. '
                        f'Relationship - {relationship}. '
@@ -164,6 +173,39 @@ def get_friend_list(steam_id: int, relationship: str) -> None:
     return response.json()
 
 
+def get_player_achievements(steam_id: int, app_id: int) -> None:
+    """
+    Returns a list of achievements for this user by app ID.
+
+    :steam_id <int>: 64 bit Steam ID to return friend list for.
+    :app_id <int>: The ID for the game you're requesting.
+    """
+
+    url = f'https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?' \
+          f'appid={app_id}&' \
+          f'key={settings.key}&' \
+          f'steamid={steam_id}'
+
+    response = requests.get(url)
+
+    if response.status_code >= 400:
+        logger.warning(f'Key - {str(settings.key)[:6]}... '
+                       f'Steam ID - {steam_id}. '
+                       f'app ID - {app_id}. '
+                       f'Status code - {response.status_code}.')
+        return None
+
+    print('Name:', response.json()['playerstats']['gameName'])
+    print()
+
+    for achievement in response.json()['playerstats']['achievements']:
+        print(achievement)
+
+    print()
+
+    return response.json()
+
+
 def main():
     try:
         # get_player_summaries(76561197963562688)
@@ -171,10 +213,12 @@ def main():
         # get_global_achievement_percentages_for_app(440)
         # get_news_for_app(440, 3, 300)
         # get_friend_list(76561197960435530, 'all')
+        # get_player_achievements(76561199087475515, 1091500)
         pass
 
     except Exception as _ex:
-        logger.critical(f'Error is {_ex}. Function - main()')
+        logger.critical(f'Error is {_ex}. '
+                        f'Function - main()')
 
 
 if __name__ == '__main__':
