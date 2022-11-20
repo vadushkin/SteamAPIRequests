@@ -140,3 +140,4 @@ cython_debug/
 
 # extra
 .idea/
+test.json
