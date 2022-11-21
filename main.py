@@ -312,6 +312,12 @@ def get_recently_played_games(steam_id: int, count: int) -> [dict, None]:
                        f'Status code - {response.status_code}.')
         return None
 
+    if not response.json()['response']['total_count']:
+        logger.warning(f'Key - {str(settings.key)[:6]}... '
+                       f'Count - {count}. '
+                       f'Steam ID - {steam_id} has not played recently')
+        return None
+
     print('Games count -', response.json()['response']['total_count'])
     print()
 

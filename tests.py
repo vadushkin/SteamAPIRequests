@@ -111,7 +111,7 @@ class TestGetPlayerAchievements(unittest.TestCase):
         user2 = 76561198947093586
 
         test1 = get_player_achievements(user1, 440)
-        test2 = get_player_achievements(user2, 1091500)
+        test2 = get_player_achievements(user2, 440)
 
         self.assertIsNotNone(test1['playerstats']['achievements'])
         self.assertIsNotNone(test2['playerstats']['achievements'])
@@ -240,12 +240,17 @@ class TestGetRecentlyPlayedGames(unittest.TestCase):
         self.assertIsNone(test1)
         self.assertIsNone(test2)
 
-    def test_data_is_correct(self):
-        user1 = 76561199087475515
-        user2 = 76561198947093586
+    def test_user_has_not_played_recently(self):
+        user1 = 76561198947093586
 
         test1 = get_recently_played_games(user1, 4)
-        test2 = get_recently_played_games(user2, 2)
+
+        self.assertIsNone(test1)
+
+    def test_data_is_correct(self):
+        user1 = 76561199087475515
+
+        test1 = get_recently_played_games(user1, 4)
 
         # I don't check for the presence of a specific amount games,
         # since the Steam API returns the last games that the user played and
@@ -253,7 +258,6 @@ class TestGetRecentlyPlayedGames(unittest.TestCase):
         # then the amount how many the user played.
 
         self.assertIsNotNone(test1['response']['games'])
-        self.assertIsNotNone(test2['response']['games'])
 
 
 class TestGetUserStatsForGame(unittest.TestCase):
