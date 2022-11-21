@@ -228,6 +228,12 @@ def get_user_stats_for_game(steam_id: int, app_id: int) -> [dict, None]:
                        f'Status code - {response.status_code}.')
         return None
 
+    if not response.json()['playerstats'].get('achievements', False):
+        logger.warning(f'Key - {str(settings.key)[:6]}... '
+                       f'App ID - {app_id}. '
+                       f'User ID - {steam_id} doesn\'t have a game {app_id}.')
+        return None
+
     print('Name:', response.json()['playerstats']['gameName'])
     print()
 
