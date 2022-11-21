@@ -6,13 +6,13 @@ Installation
 #### Clone a repository
 
 ```
-https://github.com/vadushkin/SteamApiRequests.git
+git clone https://github.com/vadushkin/SteamAPIRequests.git
 ```
 
 #### Change a folder
 
 ```
-cd testing_api_steam
+cd SteamAPIRequests
 ```
 
 #### Venv
@@ -44,3 +44,9 @@ KEY=
 #### [Documentation](https://steamcommunity.com/dev) from Steam
 
 #### Direct [link](https://steamcommunity.com/dev/apikey) to get the key
+
+#### Poetry run
+
+```shell
+poetry run python .\main.py
+```
