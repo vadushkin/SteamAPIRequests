@@ -142,7 +142,7 @@ def get_news_for_app(app_id: int, count: int, max_length: int) -> [dict, None]:
     return response.json()
 
 
-def get_friend_list(steam_id: int, relationship: str) -> None:
+def get_friend_list(steam_id: int, relationship: str) -> [dict, None]:
     """
     Returns the friend list of any Steam user, provided their Steam Community profile visibility is set to “Public”.
 
