@@ -303,3 +303,7 @@ class TestGetUserStatsForGame(unittest.TestCase):
         test1 = main.get_user_stats_for_game(user1, game1)
 
         self.assertIsNotNone(test1['playerstats']['achievements'])
+
+
+if __name__ == "__main__":
+    unittest.main()
