@@ -23,6 +23,6 @@ jobs:
       - name: Run tests
         run: |
           touch .env
-          echo KEY=${{ env.KEY }} >> .env
+          echo KEY=${{ secrets.KEY }} >> .env
           cat .env
           python tests.py
