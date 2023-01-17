@@ -1,14 +1,14 @@
 import logging
 import time
 
-import requests
-
 from config import settings
+
+import requests
 
 logger = logging.getLogger(__name__)
 
 
-def get_player_summaries(user_id: int) -> [dict, None]:
+def get_player_summaries(user_id: int) -> dict | None:
     """
     Return a list of information about a person.
 
@@ -80,7 +80,7 @@ def get_players_summaries(user_ids: list[int]) -> list[dict]:
     return lst_users
 
 
-def get_global_achievement_percentages_for_app(game_id: int) -> [dict, None]:
+def get_global_achievement_percentages_for_app(game_id: int) -> dict | None:
     """
     Returns on global achievements overview of a specific game in percentages.
 
@@ -109,7 +109,7 @@ def get_global_achievement_percentages_for_app(game_id: int) -> [dict, None]:
     return response.json()
 
 
-def get_news_for_app(app_id: int, count: int, max_length: int) -> [dict, None]:
+def get_news_for_app(app_id: int, count: int, max_length: int) -> dict | None:
     """
     Return the latest of a game specified by its appID.
 
@@ -142,9 +142,10 @@ def get_news_for_app(app_id: int, count: int, max_length: int) -> [dict, None]:
     return response.json()
 
 
-def get_friend_list(steam_id: int, relationship: str) -> [dict, None]:
+def get_friend_list(steam_id: int, relationship: str) -> dict | None:
     """
-    Returns the friend list of any Steam user, provided their Steam Community profile visibility is set to “Public”.
+    Returns the friend list of any Steam user,
+    provided their Steam Community profile visibility is set to “Public”.
 
     :steam_id <int>: User ID.
     :relationship <str>: Relationship filter. Possibles values: all, friend.
@@ -173,7 +174,7 @@ def get_friend_list(steam_id: int, relationship: str) -> [dict, None]:
     return response.json()
 
 
-def get_player_achievements(steam_id: int, app_id: int) -> [dict, None]:
+def get_player_achievements(steam_id: int, app_id: int) -> dict | None:
     """
     Returns a list of achievements for this user by app ID.
 
@@ -206,7 +207,7 @@ def get_player_achievements(steam_id: int, app_id: int) -> [dict, None]:
     return response.json()
 
 
-def get_user_stats_for_game(steam_id: int, app_id: int) -> [dict, None]:
+def get_user_stats_for_game(steam_id: int, app_id: int) -> dict | None:
     """
     Returns a list of achievements for this user by app ID.
 
@@ -245,7 +246,7 @@ def get_user_stats_for_game(steam_id: int, app_id: int) -> [dict, None]:
     return response.json()
 
 
-def get_owned_games(steam_id: int) -> [dict, None]:
+def get_owned_games(steam_id: int) -> dict | None:
     """
     Return a list of games a player owns along with some playtime information,
     if the profile is publicly visible.
@@ -284,7 +285,7 @@ def get_owned_games(steam_id: int) -> [dict, None]:
     return response.json()
 
 
-def get_recently_played_games(steam_id: int, count: int) -> [dict, None]:
+def get_recently_played_games(steam_id: int, count: int) -> dict | None:
     """
     Return a list of games a player has played in the last two weeks,
     if the profile is publicly visible.
