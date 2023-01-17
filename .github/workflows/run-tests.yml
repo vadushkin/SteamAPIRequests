@@ -21,4 +21,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run tests
-        run: python tests.py
+        run: |
+          touch .env
+          echo KEY=${{ env.KEY }} >> .env
+          cat .env
+          python tests.py
