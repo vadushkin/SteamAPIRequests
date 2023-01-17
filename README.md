@@ -1,5 +1,8 @@
 # Requests to Web Steam API
 
+[!Build Status](https://github.com/vadushkin/SteamAPIRequests/actions/workflows/type-checks.yml/badge.svg?branch=main)
+[!Build Status](https://github.com/vadushkin/SteamAPIRequests/actions/workflows/run-tests.yml/badge.svg?branch=main)
+
 Installation
 ---------
 
